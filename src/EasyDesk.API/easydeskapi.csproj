@@ -11,4 +11,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include = "..\EasyDesk.Domain\EasyDesk.Domain.csproj" />
+    <ProjectReference Include = "..\EasyDesk.Infrastructure\EasyDesk.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
