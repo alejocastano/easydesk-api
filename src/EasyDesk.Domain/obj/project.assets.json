@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nicolas.rojas01\\Documents\\Dev\\easydesk-api\\EasyDesk.Domain\\EasyDesk.Domain.csproj",
+      "projectUniqueName": "C:\\Users\\nicolas.rojas01\\Documents\\Dev\\easydesk-api\\src\\EasyDesk.Domain\\EasyDesk.Domain.csproj",
       "projectName": "EasyDesk.Domain",
-      "projectPath": "C:\\Users\\nicolas.rojas01\\Documents\\Dev\\easydesk-api\\EasyDesk.Domain\\EasyDesk.Domain.csproj",
+      "projectPath": "C:\\Users\\nicolas.rojas01\\Documents\\Dev\\easydesk-api\\src\\EasyDesk.Domain\\EasyDesk.Domain.csproj",
       "packagesPath": "C:\\Users\\nicolas.rojas01\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nicolas.rojas01\\Documents\\Dev\\easydesk-api\\EasyDesk.Domain\\obj\\",
+      "outputPath": "C:\\Users\\nicolas.rojas01\\Documents\\Dev\\easydesk-api\\src\\EasyDesk.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nicolas.rojas01\\AppData\\Roaming\\NuGet\\NuGet.Config"

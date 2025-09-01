@@ -29,13 +29,5 @@ public class Ticket
     public DateTime? LastUpdate { get; set; }
 
     public ICollection<TicketComment> Comments { get; set; } = new List<TicketComment>();
-
-    public Ticket(Guid id, string title, string description, DateTime createdAt, DateTime? closedAt = null)
-    {
-        Id = id;
-        Title = title;
-        Description = description;
-        CreatedAt = createdAt;
-        ClosedAt = closedAt;
-    }
+    
 }

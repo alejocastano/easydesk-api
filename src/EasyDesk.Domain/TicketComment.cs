@@ -1,4 +1,4 @@
-usign System.ComponentModel;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,5 +21,5 @@ public class TicketComment
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public string Content { get; set; }
-    
+
 }

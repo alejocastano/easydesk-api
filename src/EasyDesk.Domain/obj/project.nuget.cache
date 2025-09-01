@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "LQ3uPZijJNA=",
+  "dgSpecHash": "q7p4vbyl2p4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\nicolas.rojas01\\Documents\\Dev\\easydesk-api\\EasyDesk.Domain\\EasyDesk.Domain.csproj",
+  "projectFilePath": "C:\\Users\\nicolas.rojas01\\Documents\\Dev\\easydesk-api\\src\\EasyDesk.Domain\\EasyDesk.Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
