@@ -26,7 +26,7 @@ public class Ticket
     public TicketStatus Status { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime? LastUpdate { get; set; }
+    public DateTime? UpdatedAt { get; set; }
 
     public ICollection<TicketComment> Comments { get; set; } = new List<TicketComment>();
     
