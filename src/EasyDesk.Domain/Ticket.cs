@@ -26,5 +26,6 @@ public class Ticket : BaseModel
     public TicketPriority Priority { get; set; }
 
     public ICollection<TicketComment> Comments { get; set; } = new List<TicketComment>();
+    public ICollection<TicketAudit> Audits { get; set; } = new List<TicketAudit>();
     
 }
