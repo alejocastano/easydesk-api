@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EasyDesk.Domain;
 
-public class TicketStatus : BaseModel
+public class TicketPriority : BaseModel
 {
     public string Name { get; set; }
     public string Description { get; set; }

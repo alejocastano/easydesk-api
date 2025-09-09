@@ -14,6 +14,9 @@ public class AppDbContext : DbContext
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<TicketStatus> TicketStatuses { get; set; }
     public DbSet<TicketComment> TicketComments { get; set; }
+    public DbSet<UserUserRole> UserUserRoles { get; set; }
+    public DbSet<TicketPriority> TicketPriorities { get; set; }
+    public DbSet<TicketAudit> TicketAudits { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -40,5 +43,12 @@ public class AppDbContext : DbContext
             .Property(tc => tc.Id)
             .ValueGeneratedOnAdd();
 
+        modelBuilder.Entity<TicketPriority>()
+            .Property(tp => tp.Id)
+            .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<TicketAudit>()
+            .Property(ta => ta.Id)
+            .ValueGeneratedOnAdd();
     }
 }

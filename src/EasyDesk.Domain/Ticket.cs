@@ -4,12 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EasyDesk.Domain;
 
-public class Ticket
+public class Ticket : BaseModel
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
-
     public string Title { get; set; }
     public string Description { get; set; }
     
@@ -25,8 +21,9 @@ public class Ticket
     [ForeignKey("StatusId")]
     public TicketStatus Status { get; set; }
 
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime? UpdatedAt { get; set; }
+    public int PriorityId { get; set; }
+    [ForeignKey("PriorityId")]
+    public TicketPriority Priority { get; set; }
 
     public ICollection<TicketComment> Comments { get; set; } = new List<TicketComment>();
     
