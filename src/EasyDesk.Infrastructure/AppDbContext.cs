@@ -10,11 +10,11 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<User> Users { get; set; }
-    public DbSet<UserRole> UserRoles { get; set; }
+    public DbSet<Role> Roles { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<TicketStatus> TicketStatuses { get; set; }
     public DbSet<TicketComment> TicketComments { get; set; }
-    public DbSet<UserUserRole> UserUserRoles { get; set; }
+    public DbSet<UserRole> UserRoles { get; set; }
     public DbSet<TicketPriority> TicketPriorities { get; set; }
     public DbSet<TicketAudit> TicketAudits { get; set; }
 
@@ -27,8 +27,8 @@ public class AppDbContext : DbContext
             .Property(u => u.Id)
             .ValueGeneratedOnAdd();
 
-        modelBuilder.Entity<UserRole>()
-            .Property(ur => ur.Id)
+        modelBuilder.Entity<Role>()
+            .Property(r => r.Id)
             .ValueGeneratedOnAdd();
 
         modelBuilder.Entity<Ticket>()

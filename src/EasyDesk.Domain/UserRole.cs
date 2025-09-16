@@ -4,10 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EasyDesk.Domain;
 
-public class UserRole : BaseModel
+public class UserRole
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
+    public int UserId { get; set; }
+    [ForeignKey("UserId")]
+    public User User { get; set; }
 
-    public ICollection<UserUserRole> Users { get; set; } = new List<UserUserRole>();
+    public int RoleId { get; set; }
+    [ForeignKey("RoleId")]
+    public Role Role { get; set; }
 }
