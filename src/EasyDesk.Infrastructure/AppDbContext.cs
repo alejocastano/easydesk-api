@@ -50,5 +50,20 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<TicketAudit>()
             .Property(ta => ta.Id)
             .ValueGeneratedOnAdd();
+
+        modelBuilder.Entity<UserRole>()
+            .HasKey(ur => new { ur.UserId, ur.RoleId });
+
+        modelBuilder.Entity<Ticket>()
+            .HasOne(t => t.CreatedByUser)
+            .WithMany(u => u.CreatedTickets)
+            .HasForeignKey(t => t.CreatedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<Ticket>()
+            .HasOne(t => t.AssignedToUser)
+            .WithMany(u => u.AssignedTickets)
+            .HasForeignKey(t => t.AssignedToUserId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
