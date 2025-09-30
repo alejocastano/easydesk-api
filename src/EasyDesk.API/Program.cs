@@ -1,6 +1,8 @@
 using EasyDesk.Infrastructure;
 using EasyDesk.Application;
+using EasyDesk.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,7 @@ builder.Services.AddControllers()
     .AddApplicationPart(typeof(EasyDesk.Application.TicketController).Assembly);
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
