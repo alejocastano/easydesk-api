@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EasyDesk.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251002162957_ChangedTicketDataType")]
+    [Migration("20251002165346_ChangedTicketDataType")]
     partial class ChangedTicketDataType
     {
         /// <inheritdoc />
