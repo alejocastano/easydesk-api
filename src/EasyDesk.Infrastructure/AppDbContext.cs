@@ -32,8 +32,7 @@ public class AppDbContext : DbContext
             .ValueGeneratedOnAdd();
 
         modelBuilder.Entity<Ticket>()
-            .Property(t => t.Id)
-            .ValueGeneratedOnAdd(); 
+            .HasKey(t => t.Id);
         
         modelBuilder.Entity<TicketStatus>()
             .Property(ts => ts.Id)

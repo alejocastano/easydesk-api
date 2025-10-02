@@ -4,10 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EasyDesk.Domain;
 
-public class Ticket : BaseModel
+public class Ticket
 {
+    [Key]
+    public string Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime? UpdatedAt { get; set; } = null;
     
     public int CreatedByUserId { get; set; }
     [ForeignKey("CreatedByUserId")]

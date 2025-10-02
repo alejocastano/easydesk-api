@@ -29,7 +29,7 @@ public class TicketController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetTicketById(int id)
+    public async Task<IActionResult> GetTicketById(string id)
     {
         var ticket = await _ticketService.GetTicketByIdAsync(id);
         if (ticket == null)

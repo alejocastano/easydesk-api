@@ -20,7 +20,7 @@ public class TicketRepository : ITicketRepository
         return ticket;
     }
 
-    public async Task<Ticket> GetByIdAsync(int id)
+    public async Task<Ticket> GetByIdAsync(string id)
     {
         return await _context.Tickets
             .Include(t => t.Status)

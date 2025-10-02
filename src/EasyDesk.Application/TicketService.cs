@@ -48,7 +48,7 @@ public class TicketService : ITicketService
         return ticket;
     }
 
-    public async Task<Ticket> GetTicketByIdAsync(int id)
+    public async Task<Ticket> GetTicketByIdAsync(string id)
     {
         return await _ticketRepository.GetByIdAsync(id);
     }

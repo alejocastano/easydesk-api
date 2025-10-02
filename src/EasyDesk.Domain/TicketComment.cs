@@ -6,7 +6,7 @@ namespace EasyDesk.Domain;
 
 public class TicketComment : BaseModel
 {
-    public int TicketId { get; set; }
+    public string TicketId { get; set; }
     [ForeignKey("TicketId")]
     public Ticket Ticket { get; set; }
 
