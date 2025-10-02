@@ -22,9 +22,17 @@ public class TicketService : ITicketService
             throw new InvalidOperationException("An open ticket with the same title already exists.");
         }
 
-        if (DateTime.UtcNow.Hour < 15 && DateTime.UtcNow.Hour >= 3)
+        var pacificZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time");
+        var pacificNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, pacificZone);
+
+        if (pacificNow.DayOfWeek < DayOfWeek.Monday || pacificNow.DayOfWeek > DayOfWeek.Friday)
         {
-            throw new InvalidOperationException("Tickets can only be created between 3PM UTC and 3AM UTC.");
+            throw new InvalidOperationException("Tickets can only be created Monday to Friday PST.");
+        }
+
+        if (pacificNow.Hour < 8 || pacificNow.Hour >= 18)
+        {
+            throw new InvalidOperationException("Tickets can only be created between 8AM PST and 6PM PST.");
         }
 
         var ticket = new Ticket

@@ -22,11 +22,21 @@ public class TicketRepository : ITicketRepository
 
     public async Task<Ticket> GetByIdAsync(int id)
     {
-        return await _context.Tickets.FindAsync(id);
+        return await _context.Tickets
+            .Include(t => t.Status)
+            .Include(t => t.Priority)
+            .Include(t => t.CreatedByUser)
+            .Include(t => t.AssignedToUser)
+            .FirstOrDefaultAsync(t => t.Id == id);
     }
 
     public async Task<IEnumerable<Ticket>> GetAllAsync()
     {
-        return await _context.Tickets.ToListAsync();
+        return await _context.Tickets
+            .Include(t => t.Status)
+            .Include(t => t.Priority)
+            .Include(t => t.CreatedByUser)
+            .Include(t => t.AssignedToUser)
+            .ToListAsync();
     }
 }
