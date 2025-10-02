@@ -13,7 +13,16 @@ public class TicketService : ITicketService
 
     public async Task<Ticket> CreateTicketAsync(TicketDTO ticketDto, int createdByUserId)
     {
-        // Validate if there is not an open ticket with the same title (Case insensitive)   
+        if(ticketDto.Title.Length < 10 || ticketDto.Title.Length > 100)
+        {
+            throw new ArgumentException("Title must be between 10 and 100 characters.");
+        }
+
+        if(ticketDto.Description.Length < 20 || ticketDto.Description.Length > 1000)
+        {
+            throw new ArgumentException("Description must be between 20 and 1000 characters.");
+        }
+        
         var allTickets = await _ticketRepository.GetAllAsync();
         var existingTicket = allTickets.FirstOrDefault(t => t.Title.Equals(ticketDto.Title, StringComparison.OrdinalIgnoreCase) && t.StatusId == 1);
 
