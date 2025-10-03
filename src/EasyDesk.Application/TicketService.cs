@@ -5,6 +5,7 @@ namespace EasyDesk.Application;
 public class TicketService : ITicketService
 {
     private readonly ITicketRepository _ticketRepository;
+    private readonly ITicketIdGenerator _ticketIdGenerator;
 
     public TicketService(ITicketRepository ticketRepository)
     {
@@ -44,8 +45,11 @@ public class TicketService : ITicketService
             throw new InvalidOperationException("Tickets can only be created between 8AM PST and 6PM PST.");
         }
 
+        var newId = await _ticketIdGenerator.GenerateIdAsync();
+
         var ticket = new Ticket
         {
+            Id = newId,
             Title = ticketDto.Title,
             Description = ticketDto.Description,
             PriorityId = ticketDto.PriorityId,
