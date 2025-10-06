@@ -15,10 +15,15 @@ public class TicketIdGenerator : ITicketIdGenerator
 
     public async Task<string> GenerateIdAsync()
     {
-        var result = await _context.Database
-            .SqlQueryRaw<string>("SELECT generate_new_ticket_id()")
-            .SingleAsync();
+        var result = await _context.Set<TicketIdResult>()
+            .FromSqlRaw("SELECT generate_new_ticket_id() AS \"Value\"")
+            .FirstAsync();
 
-        return result;
+        return result.Value;
     }
+}
+
+public class TicketIdResult
+{
+    public string Value { get; set; } = null!;
 }
