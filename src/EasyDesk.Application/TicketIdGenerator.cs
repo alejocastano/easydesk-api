@@ -15,15 +15,14 @@ public class TicketIdGenerator : ITicketIdGenerator
 
     public async Task<string> GenerateIdAsync()
     {
-        var result = await _context.Set<TicketIdResult>()
-            .FromSqlRaw("SELECT generate_new_ticket_id() AS \"Value\"")
-            .FirstAsync();
+        var todayPrefix = "TKT-" + DateTime.UtcNow.ToString("yyyyMMdd") + "-";
 
-        return result.Value;
+        var count = await _context.Tickets
+            .CountAsync(t => t.Id.StartsWith(todayPrefix));
+
+        var nextSeq = count + 1;
+
+        var newId = $"{todayPrefix}{nextSeq.ToString().PadLeft(3, '0')}";
+        return newId;
     }
-}
-
-public class TicketIdResult
-{
-    public string Value { get; set; } = null!;
 }
