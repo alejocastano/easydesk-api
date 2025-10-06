@@ -3,6 +3,7 @@ using EasyDesk.Application;
 using EasyDesk.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers()
-    .AddApplicationPart(typeof(EasyDesk.Application.TicketController).Assembly);
+    .AddApplicationPart(typeof(EasyDesk.Application.TicketController).Assembly)
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.WriteIndented = true;
+    });
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
