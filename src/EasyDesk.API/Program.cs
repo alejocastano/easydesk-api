@@ -13,6 +13,11 @@ builder.Services.AddControllers()
     .AddApplicationPart(typeof(EasyDesk.Application.TicketController).Assembly);
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IEmailService, EmailService>(provider =>
+    new EmailService(provider.GetRequiredService<IConfiguration>()));
+builder.Services.AddSingleton<ITicketIdGenerator, TicketIdGenerator>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

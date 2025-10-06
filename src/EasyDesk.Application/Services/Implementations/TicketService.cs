@@ -1,15 +1,21 @@
 using EasyDesk.Domain;
+using EasyDesk.Infrastructure;
 
 namespace EasyDesk.Application;
 
 public class TicketService : ITicketService
 {
     private readonly ITicketRepository _ticketRepository;
+    private readonly IUserRepository _userRepository;
     private readonly ITicketIdGenerator _ticketIdGenerator;
+    private readonly IEmailService _emailService;
 
-    public TicketService(ITicketRepository ticketRepository)
+    public TicketService(ITicketRepository ticketRepository, IUserRepository userRepository, ITicketIdGenerator ticketIdGenerator, IEmailService emailService)
     {
         _ticketRepository = ticketRepository;
+        _userRepository = userRepository;
+        _ticketIdGenerator = ticketIdGenerator;
+        _emailService = emailService;
     }
 
     public async Task<Ticket> CreateTicketAsync(TicketDTO ticketDto, int createdByUserId)
@@ -58,6 +64,14 @@ public class TicketService : ITicketService
         };
 
         await _ticketRepository.AddAsync(ticket);
+
+        var createdByUser = await _userRepository.GetByIdAsync(createdByUserId);
+
+        if (createdByUser != null)
+        {
+            await _emailService.SendTicketConfirmAsync(createdByUser, ticket);
+        }
+
         return ticket;
     }
 
