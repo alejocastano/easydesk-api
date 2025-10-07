@@ -33,8 +33,3 @@ public class Ticket
     public ICollection<TicketAudit> Audits { get; set; } = new List<TicketAudit>();
     
 }
-public class TicketDTO {
-    public string Title { get; set; }
-    public string Description { get; set; }
-    public int PriorityId { get; set; } = 2; // Default to Medium
-}
