@@ -30,6 +30,16 @@ public class TicketRepository : ITicketRepository
             .FirstOrDefaultAsync(t => t.Id == id);
     }
 
+    public async Task<Ticket> GetOpenTicketByUserAndTitleAsync(int userId, string title)
+    {
+        return await _context.Tickets
+            .Include(t => t.Status)
+            .FirstOrDefaultAsync(t =>
+                t.CreatedByUserId == userId &&
+                t.Title.Equals(title, StringComparison.OrdinalIgnoreCase) &&
+                t.StatusId == (int)TicketStatusType.Open);
+    }
+
     public async Task<IEnumerable<Ticket>> GetAllAsync()
     {
         return await _context.Tickets

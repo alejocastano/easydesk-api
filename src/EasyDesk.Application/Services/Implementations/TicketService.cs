@@ -30,12 +30,11 @@ public class TicketService : ITicketService
             throw new ArgumentException("Description must be between 20 and 1000 characters.");
         }
         
-        var allTickets = await _ticketRepository.GetAllAsync();
-        var existingTicket = allTickets.FirstOrDefault(t => t.Title.Equals(ticketDto.Title, StringComparison.OrdinalIgnoreCase) && t.StatusId == 1);
+        var existingTicket = _ticketRepository.GetOpenTicketByUserAndTitleAsync(createdByUserId, ticketDto.Title);
 
         if (existingTicket != null)
         {
-            throw new InvalidOperationException("An open ticket with the same title already exists.");
+            throw new InvalidOperationException("An open ticket with the same title already exists for this user.");
         }
 
         var pacificZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time");
