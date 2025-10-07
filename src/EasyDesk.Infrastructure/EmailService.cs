@@ -19,6 +19,7 @@ public class EmailService : IEmailService
 
     public async Task SendTicketConfirmAsync(User user, Ticket ticket)
     {
+        var apiUrl = _configuration["MailerSend:ApiUrl"];
         var apiKey = _configuration["MailerSend:ApiKey"];
         var fromEmail = _configuration["MailerSend:FromEmail"];
         var fromName = _configuration["MailerSend:FromName"];
@@ -49,7 +50,7 @@ public class EmailService : IEmailService
         var jsonContent = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestBody), System.Text.Encoding.UTF8, "application/json");
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
 
-        var response = await _httpClient.PostAsync("https://api.mailersend.com/v1/email", jsonContent);
+        var response = await _httpClient.PostAsync(apiUrl, jsonContent);
 
         if(!response.IsSuccessStatusCode)
         {
