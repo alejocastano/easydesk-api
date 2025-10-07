@@ -58,7 +58,7 @@ public class TicketService : ITicketService
             Id = newId,
             Title = ticketDto.Title,
             Description = ticketDto.Description,
-            PriorityId = ticketDto.PriorityId,
+            PriorityId = (int) ticketDto.PriorityId,
             CreatedByUserId = createdByUserId,
             StatusId = 1
         };
