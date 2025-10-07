@@ -22,6 +22,10 @@ public class EmailService : IEmailService
         var apiKey = _configuration["MailerSend:ApiKey"];
         var fromEmail = _configuration["MailerSend:FromEmail"];
         var fromName = _configuration["MailerSend:FromName"];
+        var template = await File.ReadAllTextAsync("Templates/TicketCreated.html");
+
+        template = template.Replace("{{UserName}}", user.Name)
+                           .Replace("{{TicketId}}", ticket.Id);
 
         var requestBody = new
         {
