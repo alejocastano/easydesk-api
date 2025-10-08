@@ -23,7 +23,7 @@ public class EmailService : IEmailService
         var apiKey = _configuration["MailerSend:ApiKey"];
         var fromEmail = _configuration["MailerSend:FromEmail"];
         var fromName = _configuration["MailerSend:FromName"];
-        var template = await File.ReadAllTextAsync("Templates/TicketCreated.html");
+        var template = await File.ReadAllTextAsync(_configuration["MailerSend:TemplateRoute"]);
 
         template = template.Replace("{{UserName}}", user.Name)
                            .Replace("{{TicketId}}", ticket.Id);
@@ -44,7 +44,7 @@ public class EmailService : IEmailService
                 }
             },
             subject = "Your Ticket Confirmation",
-            html = $"<p>Dear {user.Name},</p><p>Your ticket with ID {ticket.Id} has been created successfully.</p><p>Thank you for using our service!</p>"
+            html = template
         };
 
         var jsonContent = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestBody), System.Text.Encoding.UTF8, "application/json");

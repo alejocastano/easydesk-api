@@ -35,7 +35,7 @@ public class TicketRepository : ITicketRepository
             .Include(t => t.Status)
             .FirstOrDefaultAsync(t =>
                 t.CreatedByUserId == userId &&
-                t.Title.Equals(title, StringComparison.OrdinalIgnoreCase) &&
+                t.Title.ToLower() == title.ToLower() &&
                 t.StatusId == (int)TicketStatusType.Open);
     }
 
