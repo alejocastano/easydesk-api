@@ -1,4 +1,5 @@
 using EasyDesk.Domain;
+using EasyDesk.Application;
 using Microsoft.EntityFrameworkCore;
 
 namespace EasyDesk.Infrastructure;

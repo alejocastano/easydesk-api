@@ -1,5 +1,4 @@
 using EasyDesk.Domain;
-using EasyDesk.Infrastructure;
 using FluentValidation;
 
 namespace EasyDesk.Application;

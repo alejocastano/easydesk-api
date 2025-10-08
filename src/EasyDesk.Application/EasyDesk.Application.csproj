@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EasyDesk.Domain\EasyDesk.Domain.csproj" />
-    <ProjectReference Include="..\EasyDesk.Infrastructure\EasyDesk.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
 using EasyDesk.Domain;
 
-namespace EasyDesk.Infrastructure;
+namespace EasyDesk.Application;
 
 public interface ITicketRepository
 {
