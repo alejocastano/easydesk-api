@@ -1,5 +1,6 @@
 using EasyDesk.Domain;
 using EasyDesk.Infrastructure;
+using FluentValidation;
 
 namespace EasyDesk.Application;
 
@@ -8,47 +9,38 @@ public class TicketService : ITicketService
     private readonly ITicketRepository _ticketRepository;
     private readonly IUserRepository _userRepository;
     private readonly ITicketIdGenerator _ticketIdGenerator;
+    private readonly ITicketValidationService _ticketValidationService;
     private readonly IEmailService _emailService;
 
-    public TicketService(ITicketRepository ticketRepository, IUserRepository userRepository, ITicketIdGenerator ticketIdGenerator, IEmailService emailService)
+    public TicketService(
+        ITicketRepository ticketRepository,
+        IUserRepository userRepository,
+        ITicketIdGenerator ticketIdGenerator,
+        IEmailService emailService,
+        ITicketValidationService ticketValidationService)
     {
         _ticketRepository = ticketRepository;
         _userRepository = userRepository;
         _ticketIdGenerator = ticketIdGenerator;
         _emailService = emailService;
+        _ticketValidationService = ticketValidationService;
     }
 
     public async Task<Ticket> CreateTicketAsync(TicketDTO ticketDto, int createdByUserId)
     {
-        if(ticketDto.Title.Length < 10 || ticketDto.Title.Length > 100)
-        {
-            throw new ArgumentException("Title must be between 10 and 100 characters.");
-        }
+        TicketValidator validator = new TicketValidator();
 
-        if(ticketDto.Description.Length < 20 || ticketDto.Description.Length > 1000)
-        {
-            throw new ArgumentException("Description must be between 20 and 1000 characters.");
-        }
-        
-        var existingTicket = _ticketRepository.GetOpenTicketByUserAndTitleAsync(createdByUserId, ticketDto.Title);
+        validator.ValidateAndThrow(ticketDto);
 
+        var createdByUser = await _userRepository.GetByIdAsync(createdByUserId);
+        if (createdByUser == null)
+            throw new InvalidOperationException("The user creating the ticket does not exist.");
+
+        var existingTicket = await _ticketRepository.GetOpenTicketByUserAndTitleAsync(createdByUserId, ticketDto.Title);
         if (existingTicket != null)
-        {
             throw new InvalidOperationException("An open ticket with the same title already exists for this user.");
-        }
-
-        var pacificZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time");
-        var pacificNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, pacificZone);
-
-        if (pacificNow.DayOfWeek < DayOfWeek.Monday || pacificNow.DayOfWeek > DayOfWeek.Friday)
-        {
-            throw new InvalidOperationException("Tickets can only be created Monday to Friday PST.");
-        }
-
-        if (pacificNow.Hour < 8 || pacificNow.Hour >= 18)
-        {
-            throw new InvalidOperationException("Tickets can only be created between 8AM PST and 6PM PST.");
-        }
+    
+        await _ticketValidationService.ValidateBusinessHoursAsync();
 
         var newId = await _ticketIdGenerator.GenerateIdAsync();
 
@@ -59,17 +51,12 @@ public class TicketService : ITicketService
             Description = ticketDto.Description,
             PriorityId = (int) ticketDto.PriorityId,
             CreatedByUserId = createdByUserId,
-            StatusId = 1
+            StatusId = (int) TicketStatusType.Open,
         };
 
         await _ticketRepository.AddAsync(ticket);
 
-        var createdByUser = await _userRepository.GetByIdAsync(createdByUserId);
-
-        if (createdByUser != null)
-        {
-            await _emailService.SendTicketConfirmAsync(createdByUser, ticket);
-        }
+        await _emailService.SendTicketConfirmAsync(createdByUser, ticket);
 
         return ticket;
     }

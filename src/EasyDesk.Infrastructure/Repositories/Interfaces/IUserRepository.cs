@@ -1,6 +1,6 @@
 using EasyDesk.Domain;
 
-namespace EasyDesk.Application;
+namespace EasyDesk.Infrastructure;
 
 public interface IUserRepository
 {
