@@ -1,8 +1,7 @@
 using EasyDesk.Domain;
-using EasyDesk.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace EasyDesk.Application;
+namespace EasyDesk.Infrastructure;
 
 public class TicketIdGenerator : ITicketIdGenerator
 {

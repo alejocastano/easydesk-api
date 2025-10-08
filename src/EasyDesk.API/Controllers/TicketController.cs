@@ -1,8 +1,8 @@
 ﻿using EasyDesk.Infrastructure;
-using EasyDesk.Domain;
+using EasyDesk.Application;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyDesk.Application;
+namespace EasyDesk.Api;
 
 [ApiController]
 [Route("api/tickets")]
