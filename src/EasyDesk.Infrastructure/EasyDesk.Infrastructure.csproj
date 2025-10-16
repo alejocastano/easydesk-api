@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EasyDesk.Domain\EasyDesk.Domain.csproj" />
+    <ProjectReference Include="..\EasyDesk.Application\EasyDesk.Application.csproj" />
   </ItemGroup>
 
 </Project>

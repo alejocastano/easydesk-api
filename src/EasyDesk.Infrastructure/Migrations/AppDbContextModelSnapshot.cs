@@ -51,11 +51,8 @@ namespace EasyDesk.Infrastructure.Migrations
 
             modelBuilder.Entity("EasyDesk.Domain.Ticket", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
                     b.Property<int?>("AssignedToUserId")
                         .HasColumnType("integer");
@@ -117,8 +114,9 @@ namespace EasyDesk.Infrastructure.Migrations
                     b.Property<int>("PerformedByUserId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TicketId")
-                        .HasColumnType("integer");
+                    b.Property<string>("TicketId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -147,8 +145,9 @@ namespace EasyDesk.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("TicketId")
-                        .HasColumnType("integer");
+                    b.Property<string>("TicketId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
