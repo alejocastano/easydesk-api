@@ -22,6 +22,8 @@ builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 builder.Services.AddScoped<ITicketValidationService, TicketValidationService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IEmailService, EmailService>(provider =>
     new EmailService(provider.GetRequiredService<IConfiguration>()));
 builder.Services.AddScoped<ITicketIdGenerator, TicketIdGenerator>();
