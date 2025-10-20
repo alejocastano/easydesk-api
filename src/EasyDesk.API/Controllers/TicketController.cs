@@ -28,6 +28,7 @@ public class TicketController : ControllerBase
         }
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetTicketById(string id)
     {
