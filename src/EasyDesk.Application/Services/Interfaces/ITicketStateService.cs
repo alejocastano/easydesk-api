@@ -4,5 +4,5 @@ namespace EasyDesk.Application;
 
 public interface ITicketStateService
 {
-    bool CanTransition(TicketStatus from, TicketStatus to);
+    bool CanTransition(TicketStatusType from, TicketStatusType to);
 }

@@ -25,6 +25,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IEmailService, EmailService>(provider =>
     new EmailService(provider.GetRequiredService<IConfiguration>()));
 builder.Services.AddScoped<ITicketIdGenerator, TicketIdGenerator>();
+builder.Services.AddScoped<ITicketStateService, TicketStateService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
