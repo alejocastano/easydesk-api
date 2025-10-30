@@ -1,6 +1,4 @@
-using EasyDesk.Domain;
-
-namespace EasyDesk.Application;
+namespace EasyDesk.Domain;
 
 public class TicketStateService : ITicketStateService
 {
