@@ -12,15 +12,19 @@ using Microsoft.Extensions.Options;
 using EasyDesk.Application;
 using EasyDesk.Domain;
 
-public class FakeAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+public class JwtAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {
-    public FakeAuthenticationHandler(
+    private readonly IUserService _userService;
+    public JwtAuthenticationHandler(
         IOptionsMonitor<AuthenticationSchemeOptions> options,
         ILoggerFactory logger,
         System.Text.Encodings.Web.UrlEncoder encoder,
-        ISystemClock clock)
+        ISystemClock clock,
+        IUserService userService)
         : base(options, logger, encoder, clock)
-    { }
+    {
+        _userService = userService;
+    }
 
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
@@ -29,10 +33,9 @@ public class FakeAuthenticationHandler : AuthenticationHandler<AuthenticationSch
 
         if(headers.TryGetValue("X-User-Id", out var idHeader) && int.TryParse(idHeader.FirstOrDefault(), out var userId))
         {
-            var userService = Context.RequestServices.GetService<IUserService>();
-            if (userService != null)
+            if (_userService != null)
             {
-                var user = await userService.GetUserByIdAsync(userId);
+                var user = await _userService.GetUserByIdAsync(userId);
                 if (user != null)
                 {
                     claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));

@@ -34,9 +34,9 @@ builder.Services.AddScoped<ITicketIdGenerator, TicketIdGenerator>();
 // JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = "Fake";
-    options.DefaultChallengeScheme = "Fake";
-}).AddScheme<AuthenticationSchemeOptions, FakeAuthenticationHandler>("Fake", options => { });
+    options.DefaultAuthenticateScheme = "Bearer";
+    options.DefaultChallengeScheme = "Bearer";
+}).AddScheme<AuthenticationSchemeOptions, JwtAuthenticationHandler>("Bearer", options => { });
 
 builder.Services.AddAuthorization(options =>
 {
