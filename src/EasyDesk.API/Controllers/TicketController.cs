@@ -1,6 +1,7 @@
 ﻿using EasyDesk.Infrastructure;
 using EasyDesk.Application;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EasyDesk.Api;
 
@@ -28,6 +29,7 @@ public class TicketController : ControllerBase
         }
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetTicketById(string id)
     {
