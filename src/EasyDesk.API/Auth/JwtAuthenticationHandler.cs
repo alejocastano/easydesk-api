@@ -28,42 +28,58 @@ public class JwtAuthenticationHandler : AuthenticationHandler<AuthenticationSche
 
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        var headers = Request.Headers;
-        var claims = new List<Claim>();
+        var userId = ExtractUserIdFromHeader();
+        if (userId == null)
+            return AuthenticateResult.Fail("Missing X-User-Id header");
 
-        if(headers.TryGetValue("X-User-Id", out var idHeader) && int.TryParse(idHeader.FirstOrDefault(), out var userId))
-        {
-            if (_userService != null)
-            {
-                var user = await _userService.GetUserByIdAsync(userId);
-                if (user != null)
-                {
-                    claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-                    if (!string.IsNullOrEmpty(user.Username))
-                    {
-                        claims.Add(new Claim(ClaimTypes.Name, user.Username));
-                    }
-                    if (!string.IsNullOrEmpty(user.Email))
-                    {
-                        claims.Add(new Claim(ClaimTypes.Email, user.Email));
-                    }
-
-                    foreach (var ur in user.UserRoles ?? Enumerable.Empty<UserRole>())
-                    {
-                        if (ur?.Role != null && !string.IsNullOrEmpty(ur.Role.Name))
-                        {
-                            claims.Add(new Claim(ClaimTypes.Role, ur.Role.Name));
-                        }
-                    }
-                }
-            }
-        }
-
+        var claims = await BuildUserClaimsAsync(userId.Value);
         if (!claims.Any())
         {
             return AuthenticateResult.Fail("Invalid or missing X-User-Id header");
         }
 
+        return CreateSuccessResult(claims);
+    }
+
+    private int? ExtractUserIdFromHeader()
+    {
+        var headers = Request.Headers;
+        if (headers.TryGetValue("X-User-Id", out var idHeader) && int.TryParse(idHeader.FirstOrDefault(), out var userId))
+        {
+            return userId;
+        }
+        return null;
+    }
+
+    private async Task<List<Claim>> BuildUserClaimsAsync(int userId)
+    {
+        var claims = new List<Claim>();
+        var user = await _userService.GetUserByIdAsync(userId);
+        if (user != null)
+        {
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+            if (!string.IsNullOrEmpty(user.Username))
+            {
+                claims.Add(new Claim(ClaimTypes.Name, user.Username));
+            }
+            if (!string.IsNullOrEmpty(user.Email))
+            {
+                claims.Add(new Claim(ClaimTypes.Email, user.Email));
+            }
+
+            foreach (var ur in user.UserRoles ?? Enumerable.Empty<UserRole>())
+            {
+                if (ur?.Role != null && !string.IsNullOrEmpty(ur.Role.Name))
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, ur.Role.Name));
+                }
+            }
+        }
+        return claims;
+    }
+
+    private AuthenticateResult CreateSuccessResult(List<Claim> claims)
+    {
         var identity = new ClaimsIdentity(claims, Scheme.Name);
         var principal = new ClaimsPrincipal(identity);
         var ticket = new AuthenticationTicket(principal, Scheme.Name);
