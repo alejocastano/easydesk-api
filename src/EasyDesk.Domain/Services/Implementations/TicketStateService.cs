@@ -47,20 +47,16 @@ public class TicketStateService : ITicketStateService
 
         var userRoleTypes = new HashSet<RoleType>();
 
-        try
+        if (user.UserRoles != null)
         {
-            if (user.UserRoles != null)
+            foreach (var ur in user.UserRoles)
             {
-                foreach (var ur in user.UserRoles)
+                if (Enum.IsDefined(typeof(RoleType), ur.RoleId))
                 {
-                    if (Enum.IsDefined(typeof(RoleType), ur.RoleId))
-                    {
-                        userRoleTypes.Add((RoleType)ur.RoleId);
-                    }
+                    userRoleTypes.Add((RoleType)ur.RoleId);
                 }
             }
         }
-        catch { }
 
         return userRoleTypes.Overlaps(allowedRoles);
     }
