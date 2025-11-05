@@ -30,6 +30,7 @@ builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IEmailService, EmailService>(provider =>
     new EmailService(provider.GetRequiredService<IConfiguration>()));
 builder.Services.AddScoped<ITicketIdGenerator, TicketIdGenerator>();
+builder.Services.AddScoped<ITicketStateService, TicketStateService>();
 
 // JWT Authentication
 builder.Services.AddAuthentication(options =>
